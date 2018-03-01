@@ -1,4 +1,4 @@
-Create database `myproject` ;
+CREATE DATABASE  IF NOT EXISTS `myproject` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `myproject`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
@@ -18,30 +18,6 @@ USE `myproject`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `category`
---
-
-DROP TABLE IF EXISTS `category`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book categories, e.g., Arts, Business, It, Kids, etc.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `category`
---
-
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` (`id`, `name`) VALUES (5,'IT');
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `book`
 --
 
@@ -53,17 +29,17 @@ CREATE TABLE `book` (
   `title` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `author` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `isbn` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `release_year` varchar(10) NOT NULL ,
+  `release_year` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `publisher` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `existing_quantity` int(6) NOT NULL,
   `price` decimal(5,2) NOT NULL,
   `description` tinytext COLLATE utf8_unicode_ci,
   `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `category_id` int(10) unsigned NOT NULL,
+  `category_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_book_category` (`category_id`),
   CONSTRAINT `fk_book_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book details';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book details';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,15 +48,37 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` (`id`, `title`, `author`, `isbn`, `release_year`, `publisher`, `existing_quantity`, `price`, `description`, `last_update`, `category_id`) VALUES (1,'java8','Dr Yanq','62521-xp','2015','armstrong',250,20.00,'good resource for learn java','2018-02-06 09:37:53',5);
+INSERT INTO `book` (`id`, `title`, `author`, `isbn`, `release_year`, `publisher`, `existing_quantity`, `price`, `description`, `last_update`, `category_id`) VALUES (1,'java','Dr Yanq','62521-xp','2015','Armstrong',250,25.00,'good resource for beginners','2018-02-06 09:37:53',5),(4,'How to Cook',' Chef.Noi',' 452-20-xp','2015',' NYC',200,10.00,' Exprets Book','2018-03-01 16:57:57',6),(5,'Start your Busnises',' Sara COhen',' 12-0769-XP','2017',' Leader',100,20.00,' For Startups','2018-03-01 17:11:00',7);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book categories, e.g., Arts, Business, It, Kids, etc.';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` (`id`, `name`) VALUES (5,'IT'),(6,'Cook'),(7,'Business'),(8,'Marketing'),(9,'Rea lState');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `customer`
 --
-
 
 DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -170,3 +168,5 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2018-03-01 18:26:13
