@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `myproject` /*!40100 DEFAULT CHARACTER SET utf8 */;
+Create database `myproject` ;
 USE `myproject`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
@@ -18,41 +18,6 @@ USE `myproject`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `book`
---
-
-DROP TABLE IF EXISTS `book`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `book` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
-  `author` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `isbn` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
-  `release_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `publisher` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
-  `existing_quantity` smallint(6) NOT NULL,
-  `price` decimal(5,2) NOT NULL,
-  `description` tinytext COLLATE utf8_unicode_ci,
-  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `category_id` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_book_category` (`category_id`),
-  CONSTRAINT `fk_book_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book details';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `book`
---
-
-LOCK TABLES `book` WRITE;
-/*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` (`id`, `title`, `author`, `isbn`, `release_date`, `publisher`, `existing_quantity`, `price`, `description`, `last_update`, `category_id`) VALUES (1,'java8','Dr Yanq','62521-xp','2015-02-01 05:00:00','armstrong',250,20.00,'good resource for learn java','2018-02-06 09:37:53',5);
-/*!40000 ALTER TABLE `book` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `category`
 --
 
@@ -60,7 +25,7 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
-  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book categories, e.g., Arts, Business, It, Kids, etc.';
@@ -77,8 +42,45 @@ INSERT INTO `category` (`id`, `name`) VALUES (5,'IT');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `book`
+--
+
+DROP TABLE IF EXISTS `book`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `book` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `author` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `isbn` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `release_year` varchar(10) NOT NULL ,
+  `publisher` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `existing_quantity` int(6) NOT NULL,
+  `price` decimal(5,2) NOT NULL,
+  `description` tinytext COLLATE utf8_unicode_ci,
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `category_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_book_category` (`category_id`),
+  CONSTRAINT `fk_book_category` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='contains book details';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `book`
+--
+
+LOCK TABLES `book` WRITE;
+/*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` (`id`, `title`, `author`, `isbn`, `release_year`, `publisher`, `existing_quantity`, `price`, `description`, `last_update`, `category_id`) VALUES (1,'java8','Dr Yanq','62521-xp','2015','armstrong',250,20.00,'good resource for learn java','2018-02-06 09:37:53',5);
+/*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
 -- Table structure for table `customer`
 --
+
 
 DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -142,7 +144,7 @@ DROP TABLE IF EXISTS `ordered_book`;
 CREATE TABLE `ordered_book` (
   `customer_order_id` int(10) unsigned NOT NULL,
   `book_id` int(10) unsigned NOT NULL,
-  `quantity` smallint(5) unsigned NOT NULL DEFAULT '1',
+  `quantity` int(5) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`customer_order_id`,`book_id`),
   KEY `fk_ordered_book_customer_order` (`customer_order_id`),
   KEY `fk_ordered_book_book` (`book_id`),
@@ -168,5 +170,3 @@ UNLOCK TABLES;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-02-22 20:32:12
